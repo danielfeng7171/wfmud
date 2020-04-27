@@ -31,7 +31,7 @@
 #tri {go room on area:3} {#case (@room) {} {#2 e} {e;d;w} {e;d;e} {e;#2 d;w} {e;#2 d;e} {e;n} {#show go next area}} "general"
 // 晚月
 #tri {go next room on area:4} {#add room 1;#show go Room:@room;#if (@room = 4) {#show go next area} {#if (@room = 2) {#4 s;#wa 1000;#5 w} {#5 e;#wa 1000;#5 e};#wa 1000;#show start check}} "general"
-#tri {go room on area:4} {#case (@room) {} {#4 s;#5 w} {#4 s;#5 e} {#show go next area}} "general"
+#tri {go room on area:4} {#case (@room) {} {#4 s;#wa 1000;#5 w} {#4 s;#wa 1000;#5 e} {#show go next area}} "general"
 // 台灣
 #tri {go next room on area:5} {#add room 1;#show go Room:@room;#if (@room = 3) {move 5;#ti on;#t+ learn} {#case (@room) {} {#2 w};#wa 1000;#show start check}} "general"
 // 避免動作太快,沒有戰鬥中遇到,通常已經打到台灣,所以就直接飛到幫會待機
