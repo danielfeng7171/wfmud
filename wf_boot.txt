@@ -1,0 +1,78 @@
+// set variable
+// 格式為 #var 變數名稱 變數數值
+#var room 1
+#var area 1
+#var potential 0
+#var bPlayer 0
+#var mobName 0
+
+// set trigger
+// 格式為 #tri {觸發文字} {執行動作} "設定在哪個類別"
+#tri {start check} {#t+ check;#var bPlayer 0;#var mobName 0;#wa 1000;look;#show checkKill} "general"
+#tri {go next area} {#if (@area < 4) {#add area 1} {#var area 1};move @area;#var room 1;#wa 1000;#show start check} "general"
+// 依賀
+#tri {go next room on area:1} {#add room 1;#show go Room:@room;#if (@room = 9) {#var room 1;#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {w;n;w}};#wa 1000;#show start check} "general"
+// 龍門
+#tri {go next room on area:2} {#add room 1;#show go Room:@room;#if (@room = 5) {#var room 1;#show go next area} {#if (@room = 3) {e;e} {e}};#wa 1000;#show start check} "general"
+// 黑風
+#tri {go next room on area:3} {#add room 1;#show go Room:@room;#if (@room = 8) {#var room 1;#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {#if (@room = 7) {move 3;e;n} {w;d;w}}};#wa 1000;#show start check} "general"
+// 晚月
+#tri {go next room on area:4} {#add room 1;#show go Room:@room;#if (@room = 4) {#var room 1;#show go next area} {#if (@room = 2) {#4 s;#5 w} {#10 e} ;#wa 1000;#show start check} "general"
+// 檢查潛能
+#tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120) {m 5;#ti on;#t+ learn;sa} {#var room 1;move @area;#show start check}} "general"
+// 避免動作太快
+#tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#ig;#math delay (%1+1)*1000;#wa @delay;#ig} "general"
+
+// 檢查玩家
+#tri 騎在%*上 {#var bPlayer 1} "check"
+// 檢查mob
+#tri {(}(%*){)} {mobName = %lower(%1)} "check"
+#tri {checkKill} {#if (@bPlayer = 1 | @mobName = 0) {#show go next room on area:@area} {k @mobName;#t- check;#t+ kill}} "check"
+
+#tri {沒有這個人} {hp} "kill"
+
+#tri {發揮到極限了} {#t- learn;#ti off;#wa 1000;cd;move @area;#var room 1;#wa 1000;#show start check;} "learn"
+
+//測試語句
+你的潛能已經發揮到極限了﹐沒有辦法再成長了。
+
+龍門鑣局第十三代弟子 極度地獄(Digga)[騎在小毛驢上]
+
+因為你殺死了金忍者，得到了 1點經驗值和 20點潛能以及 1點聲望。
+
+【警告】你於 12 秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！
+
+哈哈哈哈...，今日就讓三途判顯示一下實力吧~~
+
+好像沒有這個地方可以去唷！
+
+精﹕  438/  438 (100%)    靈力﹕ 1600 /  800 (+10)   食物﹕268/300
+氣﹕  503/  503 (100%)    內力﹕ 2080 / 1040 (+10)   飲水﹕330/300
+神﹕  358/  358 (100%)    法力﹕ 1600 /  800 (+10)   爆發力:   0
+真    元: 100%
+殺    氣﹕315
+狀    態: 正常
+潛    能: 2
+
+你目前所學過的技能共 20 項詳列如下﹕
+
+  基本刀法 (blade)                         - 登峰造極    80/    0
+  盾牌格擋 (block)                         - 出神入化    70/ 4833
+  縱躍閃躲之術 (dodge)                     - 登峰造極    80/    2
+ˇ 雲龍風珠 (dragon_throw)                  - 登峰造極    80/ 3910
+ˇ 天龍心法 (dragonforce)                   - 登峰造極    80/ 1161
+  內功心法 (force)                         - 登峰造極    81/    0
+  伏魔掌法 (fulmo_fist)                    - 駕輕就熟    48/   50
+ˇ 干櫓衛護 (guard-block)                   - 初學乍練     5/   16
+  讀書識字 (literate)                      - 深不可測   101/    0
+  法術 (magic)                             - 舉世無雙    80/   57
+  行動步法 (move)                          - 神乎其技    61/    0
+  拆招卸力之法 (parry)                     - 登峰造極    80/    0
+ˇ 天罡幻訣 (plough-steps)                  - 登峰造極    80/ 5559
+ˇ 天地絕式 (sky-ground)                    - 登峰造極    80/ 1530
+  咒術 (spells)                            - 舉世無雙    80/   19
+ˇ 狂風十連斬 (stormblade)                  - 登峰造極    80/21284
+  狂風神功 (stormforce)                    - 半生不熟    20/   24
+  玄子神功 (sunzi-force)                   - 初學乍練     5/    0
+  暗器使用 (throwing)                      - 登峰造極    80/    0
+  撲擊格鬥之技 (unarmed)                   - 登峰造極    80/    2
