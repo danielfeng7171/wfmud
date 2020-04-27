@@ -5,33 +5,76 @@
 #var potential 0
 #var bPlayer 0
 #var mobName 0
+// 判斷是否正在k mob
+#var bKill 1
+// 目前學習技能的指標
+#var skIdx 1
 
-// set trigger
-// 格式為 #tri {觸發文字} {執行動作} "設定在哪個類別"
-#tri {start check} {#t+ check;#var bPlayer 0;#var mobName 0;#wa 1000;look;#show checkKill} "general"
-#tri {go next area} {#if (@area < 4) {#add area 1} {#var area 1};move @area;#var room 1;#wa 1000;#show start check} "general"
-// 依賀
-#tri {go next room on area:1} {#add room 1;#show go Room:@room;#if (@room = 9) {#var room 1;#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {w;n;w}};#wa 1000;#show start check} "general"
+// set hotkey
+#alias {goTaiwan} {e;e;tran 9;n;n;e;u;e;#show start check}
+#alias {killNext} {kill @mobName}
+#alias {rs} {#var area 1;#var room 1}
+
+// set trigger 格式為 #tri {觸發文字} {執行動作} "設定在哪個類別"
+//-------------general--------------
+// 重設mob&player的變數,檢查房間
+#tri {start check} {#t+ check;#var bPlayer 0;#var mobName 0;look;#wa 1000;#show checkKill} "general"
+#tri {go next area} {#show area @area End! Time:%time();#add area 1;#var room 1;#if (@area < 5) {move @area;#wa 1000;#show start check} {recall;#wa 1000;buy manto;#3 eat manto;#wa 1000;goTaiwan;}} "general"
+// 依賀,go next room on area:1 會到下個房間,go room on area:1 會直接到指定房間
+#tri {go next room on area:1} {#add room 1;#show go Room:@room;#if (@room = 9) {#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {w;n;w};#wa 1000;#show start check}} "general"
+#tri {go room on area:1} {#case (@room) {} {e;e} {e;n;w} {e;n;e} {e;#2 n;w} {e;#2 n;e} {e;#3 n;w} {e;#3 n;e} {#show go next area}} "general"
 // 龍門
-#tri {go next room on area:2} {#add room 1;#show go Room:@room;#if (@room = 5) {#var room 1;#show go next area} {#if (@room = 3) {e;e} {e}};#wa 1000;#show start check} "general"
+#tri {go next room on area:2} {#add room 1;#show go Room:@room;#if (@room = 5) {#show go next area} {#if (@room = 3) {e;e} {e};#wa 1000;#show start check}} "general"
+#tri {go room on area:2} {#case (@room) {} {e} {#3 e} {#4 e} {#show go next area}} "general"
 // 黑風
-#tri {go next room on area:3} {#add room 1;#show go Room:@room;#if (@room = 8) {#var room 1;#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {#if (@room = 7) {move 3;e;n} {w;d;w}}};#wa 1000;#show start check} "general"
+#tri {go next room on area:3} {#add room 1;#show go Room:@room;#if (@room = 8) {#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {#if (@room = 7) {move 3;e;n} {w;d;w}};#wa 1000;#show start check}} "general"
+#tri {go room on area:3} {#case (@room) {} {#2 e} {e;d;w} {e;d;e} {e;#2 d;w} {e;#2 d;e} {e;n} {#show go next area}} "general"
 // 晚月
-#tri {go next room on area:4} {#add room 1;#show go Room:@room;#if (@room = 4) {#var room 1;#show go next area} {#if (@room = 2) {#4 s;#5 w} {#10 e} ;#wa 1000;#show start check} "general"
-// 檢查潛能
-#tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120) {m 5;#ti on;#t+ learn;sa} {#var room 1;move @area;#show start check}} "general"
-// 避免動作太快
-#tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#ig;#math delay (%1+1)*1000;#wa @delay;#ig} "general"
-
+#tri {go next room on area:4} {#add room 1;#show go Room:@room;#if (@room = 4) {#show go next area} {#if (@room = 2) {#4 s;#wa 1000;#5 w} {#5 e;#wa 1000;#5 e};#wa 1000;#show start check}} "general"
+#tri {go room on area:4} {#case (@room) {} {#4 s;#5 w} {#4 s;#5 e} {#show go next area}} "general"
+// 台灣
+#tri {go next room on area:5} {#add room 1;#show go Room:@room;#if (@room = 3) {move 5;#ti on;#t+ learn} {#case (@room) {} {#2 w};#wa 1000;#show start check}} "general"
+// 避免動作太快,沒有戰鬥中遇到,通常已經打到台灣,所以就直接飛到幫會待機
+#tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#cap log;#ti off;#ig;#math delay (%1+1)*1000;#wa @delay;#ig;#if (@bKill = 0) {move 5} {#show start check}} "general"
+// 15分鐘一次,如果沒有在殺怪,回到area 1
+#tri 哈哈哈哈...，今日就讓三*顯示一下實力吧~~ {#if (@bKill = 0) {#var area 0;#show go next area}} "general"
+// 把龍門鏢局的頻道內容擷取到chat視窗
+#tri {【龍門鑣局】} {#cap chat} "general"
+// 把Time:開頭的資訊擷取到log視窗
+#tri {Time:} {} "general"
+// 把goalSk的資訊擷取到log視窗
+#tri {goalSk} {} "general"
+// 降殺氣
+#tri {殺    氣﹕(%d)} {killScore = %1} "general"
+#tri {你用一種異樣的眼神掃視著在場的每一個人。} {#t- check;enable force sunzi-force;cd;#ti 1 {pd}} "general"
+#tri {你現在毫無殺氣。} {#ti off;#ti 0 {tickCmd};enable force dragonforce;cd;cd;#show start check} "general"
+//-------------check--------------
+// 檢查是否有戰鬥中的mob or player的變數
+#tri 戰鬥中 {#varl bPlayer 1} "check"
 // 檢查玩家
 #tri 騎在%*上 {#var bPlayer 1} "check"
 // 檢查mob
 #tri {(}(%*){)} {mobName = %lower(%1)} "check"
-#tri {checkKill} {#if (@bPlayer = 1 | @mobName = 0) {#show go next room on area:@area} {k @mobName;#t- check;#t+ kill}} "check"
+// 判斷是否k mob
+#tri {checkKill} {#if (@bPlayer = 1 | @mobName = 0) {#show go next room on area:@area} {k @mobName;#t- check;#t+ kill;#var bKill 1}} "check"
 
-#tri {沒有這個人} {hp} "kill"
+//-------------kill--------------
+#tri {沒有這個人} {hp;sa;#var bKill 0} "kill"
+#tri {因為你殺死了} {killNext} "kill"
+// 檢查潛能
+#tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120) {move 5;#ti on;#t+ learn} {#show go next room on area:@area}} "kill"
 
-#tri {發揮到極限了} {#t- learn;#ti off;#wa 1000;cd;move @area;#var room 1;#wa 1000;#show start check;} "learn"
+//-------------learn--------------
+#tri {發揮到極限了} {#t- learn;#ti off;#t+ showStatus;sk;#wa 1000;cd;#t- showStatus;#if (@area < 5) {#add room 1;move @area;#show go room on area:@area;#wa 1000;#show start check;} {recall;#wa 1000;e;#4 n;#wa 1000;w;#3 ladle;move 1;rs;#show all area End! Time:%time()}} "learn"
+// skill排序
+1 = force, 2 = dragonforce, 3 = blade, 4 = unarmed, 5 = dodge, 6 = parry 7 = spells
+8 = magic, 9 = throwing, 10 = block, 11 = guard-block, 12 = clever-thief, 13 = thief
+#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1;wield blade;save;backup;quit};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};#ti} "learn"
+#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1;wield blade;save;backup;quit};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};#ti} "learn"
+#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1;wield blade;save;backup;quit};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};#ti} "learn"
+//-------------showStatus--------------
+// 顯示目前學習的技能等級
+#tri {%e%s{(}(%*){)}(%*)} {#if (%1 = @goalSk) {#show goalSk(%1):%2}} "showStatus"
 
 //測試語句
 你的潛能已經發揮到極限了﹐沒有辦法再成長了。
@@ -42,9 +85,16 @@
 
 【警告】你於 12 秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！
 
+龍門鑣局第二十四代弟子「酆都妖伶」千雪落(Poik) <戰鬥中>
+
 哈哈哈哈...，今日就讓三途判顯示一下實力吧~~
 
 好像沒有這個地方可以去唷！
+
+你用一種異樣的眼神掃視著在場的每一個人。
+
+你現在毫無殺氣。
+
 
 精﹕  438/  438 (100%)    靈力﹕ 1600 /  800 (+10)   食物﹕268/300
 氣﹕  503/  503 (100%)    內力﹕ 2080 / 1040 (+10)   飲水﹕330/300
@@ -58,6 +108,7 @@
 
   基本刀法 (blade)                         - 登峰造極    80/    0
   盾牌格擋 (block)                         - 出神入化    70/ 4833
+  妙手空空 (clever-thief)                  - 深不可測   189/    0
   縱躍閃躲之術 (dodge)                     - 登峰造極    80/    2
 ˇ 雲龍風珠 (dragon_throw)                  - 登峰造極    80/ 3910
 ˇ 天龍心法 (dragonforce)                   - 登峰造極    80/ 1161
@@ -74,5 +125,6 @@
 ˇ 狂風十連斬 (stormblade)                  - 登峰造極    80/21284
   狂風神功 (stormforce)                    - 半生不熟    20/   24
   玄子神功 (sunzi-force)                   - 初學乍練     5/    0
+  盜賊技能 (thief)                         - 新學乍用     6/   46
   暗器使用 (throwing)                      - 登峰造極    80/    0
   撲擊格鬥之技 (unarmed)                   - 登峰造極    80/    2
