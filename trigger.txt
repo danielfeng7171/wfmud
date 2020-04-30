@@ -14,8 +14,8 @@
 #tri {go next room on area:2} {#add room 1;#show go Room:@room;#if (@room = 5) {#show go next area} {#if (@room = 3) {e;e} {e};#wa 1000;#show start check}} "general"
 #tri {go room on area:2} {#case (@room) {} {e} {#3 e} {#4 e} {#show go next area}} "general"
 // 黑風
-#tri {go next room on area:3} {#add room 1;#show go Room:@room;#if (@room = 6) {#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {#if (@room = 5) {move 3;e;n} {w;d;w}};#wa 1000;#show start check}} "general"
-#tri {go room on area:3} {#case (@room) {} {#2 e} {e;d;w} {e;d;e} {e;n} {#show go next area}} "general"
+#tri {go next room on area:3} {#add room 1;#show go Room:@room;#if (@room = 4) {#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {#if (@room = 3) {move 3;e;n} {w;d;w}};#wa 1000;#show start check}} "general"
+#tri {go room on area:3} {#case (@room) {} {#2 e} {e;n} {#show go next area}} "general"
 // 晚月
 #tri {go next room on area:4} {#add room 1;#show go Room:@room;#if (@room = 4) {#show go next area} {#if (@room = 2) {#4 s;#wa 1000;#5 w} {#5 e;#wa 1000;#5 e};#wa 1000;#show start check}} "general"
 #tri {go room on area:4} {#case (@room) {} {#4 s;#5 w} {#4 s;#5 e} {#show go next area}} "general"
