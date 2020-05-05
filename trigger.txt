@@ -2,7 +2,7 @@
 //-------------general--------------
 // 重設mob&player的變數,檢查房間
 #tri {start check} {#t+ check;#var bPlayer 0;#var mobName 0;look;#wa 1000;#show checkKill} "general"
-#tri {go next area} {#show area @area End! Time:%time();#add area 1;#var room 1;#if (@area < 5) {move @area;#wa 1000;#show start check} {recall;#wa 1000;buy manto;#3 eat manto;move 5;#ti;#t+ learn}} "general"
+#tri {go next area} {#show area @area End! Time:%time();#add area 1;#var room 1;#if (@area < 5) {move @area;#wa 1000;#show start check} {recall;#wa 1000;buy manto;#3 eat manto;move 5;startLearn}} "general"
 // go next room on area:1 會到下個房間,go room on area:1 會直接到指定房間
 // 東校場
 #tri {go next room on area:1} #add room 1;#show go Room:@room;#case (@room) {} {s} {s} {e} {n} {n} {e} {s} {s} {#show go next area};#if (@room < 10) {#wa 1000;#show start check}  "general"
@@ -17,7 +17,7 @@
 #tri {go next room on area:4} {#wa 2000;#add room 1;#show go Room:@room;#if (@room < 9) {e} {#if (@room < 12) {s} {#if (@room < 15) {w} {#if (@room < 17) {n} {#show go next area}}}}; #if (@room < 17) {#show start check}} "general"
 
 // 避免動作太快,沒有戰鬥中遇到就直接飛到幫會待機
-#tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#cap log;#ti off;#ig;#math delay (%1+2)*1000;#wa @delay;#ig;#if (@bKill = 0) {move 5;#ti on;#t+ learn} {#show start check}} "general"
+#tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#cap log;#ti off;#ig;#math delay (%1+2)*1000;#wa @delay;#ig;#if (@bKill = 0) {move 5;startLearn} {#show start check}} "general"
 // 把龍門鏢局的頻道內容擷取到chat視窗
 #tri {【龍門鑣局】} {#cap chat} "general"
 // 把Time:開頭的資訊擷取到log視窗
@@ -50,7 +50,7 @@
 #tri {沒有這個人} {hp;sa;#var bKill 0} "kill"
 #tri {因為你殺死了} {#case (@area) {ks} {kn} {k @mobName} {ks} {}} "kill"
 // 檢查潛能
-#tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120) {move 5;#ti on;#t+ learn} {#show go next room on area:@area}} "kill"
+#tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120) {move 5;startLearn} {#show go next room on area:@area}} "kill"
 // 清兵有可能被防衛軍殺死,而沒有觸發
 #tri {因為防衛軍殺死了} {ks;#var bKill 0} "kill"
 //-------------learn--------------
@@ -58,9 +58,9 @@
 // skill排序
 1 = force, 2 = dragonforce, 3 = blade, 4 = unarmed, 5 = dodge, 6 = parry 7 = spells
 8 = magic, 9 = throwing, 10 = block, 11 = guard-block, 12 = clever-thief, 13 = thief
-#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};#ti on;#wa 1000;#t+ learn} "learn"
-#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};#ti on;#wa 1000;#t+ learn} "learn"
-#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};#ti on;#wa 1000;#t+ learn} "learn"
+#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};startLearn} "learn"
+#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};startLearn} "learn"
+#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};startLearn} "learn"
 
 //-------------showStatus--------------
 // 顯示目前學習的技能等級
