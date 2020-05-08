@@ -7,3 +7,6 @@
 // 晚月
 #tri {go next room on area:4} {#add room 1;#show go Room:@room;#if (@room = 4) {#show go next area} {#if (@room = 2) {#4 s;#wa 1000;#5 w} {#5 e;#wa 1000;#5 e};#wa 1000;#show start check}} "general"
 #tri {go room on area:4} {#case (@room) {} {#4 s;#5 w} {#4 s;#5 e} {#show go next area}} "general"
+// 依賀
+#tri {go next room on area:3} {#add room 1;#show go Room:@room;#if (@room = 9) {#show go next area} {#if ((%mod(@room,2)) = 0) {e;e} {w;n;w};#wa 1000;#show start check}} "general"
+#tri {go room on area:3} {#case (@room) {} {e;e} {e;n;w} {e;n;e} {e;#2 n;w} {e;#2 n;e} {e;#3 n;w} {e;#3 n;e} {#show go next area}} "general"
