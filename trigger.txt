@@ -32,9 +32,9 @@
 //-------------reborn-------------
 // 判斷是否重生
 // 15分鐘一次,如果沒有在殺怪,回到area 1
-#tri 哈哈哈哈...，今日就讓三*顯示一下實力吧~~ {#if (@bKill = 0) {#t- reborn;#var area 0;#show go next area;#alarm +10 {#t+ reborn}}} "reborn"
-#tri 黑衣人話沒說完，就放了一枝煙火。 {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10 {#t+ reborn}}} "reborn"
-#tri 愚蠢的人類，我們狐仙素來不侵犯你們，今日可是你們自找的! {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10 {#t+ reborn}}} "reborn"
+#tri 哈哈哈哈...，今日就讓三*顯示一下實力吧~~ {#if (@bKill = 0) {#t- reborn;#var area 0;#show go next area;#alarm +10:0 {#t+ reborn}}} "reborn"
+#tri 黑衣人話沒說完，就放了一枝煙火。 {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10:0 {#t+ reborn}}} "reborn"
+#tri 愚蠢的人類，我們狐仙素來不侵犯你們，今日可是你們自找的! {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10:0 {#t+ reborn}}} "reborn"
 
 //-------------check--------------
 // 檢查是否有戰鬥中的mob or player的變數
@@ -48,7 +48,7 @@
 
 //-------------kill--------------
 #tri {沒有這個人} {hp;sa;#var bKill 0} "kill"
-#tri {因為*殺死了} {#case (@area) {ks} {kn} {ks;p1} {ks} {}} "kill"
+#tri {因為*殺死了} {#case (@area) {ks} {kt} {ks;p1} {ks} {}} "kill"
 // 檢查潛能
 #tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120 | (@area = 3 & @potential = 100)) {move 5;startLearn} {#show go next room on area:@area}} "kill"
 //-------------learn--------------
