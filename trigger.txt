@@ -34,7 +34,7 @@
 // 15分鐘一次,如果沒有在殺怪,回到area 1
 #tri 哈哈哈哈...，今日就讓三*顯示一下實力吧~~ {#if (@bKill = 0) {#t- reborn;#var area 0;#show go next area;#alarm +10:0 {#t+ reborn}}} "reborn"
 #tri 黑衣人話沒說完，就放了一枝煙火。 {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10:0 {#t+ reborn}}} "reborn"
-#tri 愚蠢的人類，我們狐仙素來不侵犯你們，今日可是你們自找的! {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10:0 {#t+ reborn}}} "reborn"
+#tri 愚蠢的人類，我們狐仙素來不侵犯你們，今日可是你們自找的! {#if (@bKill = 0) {#var area 0;#show go next area;#alarm +10:0who  {#t+ reborn}}} "reborn"
 
 //-------------check--------------
 // 檢查是否有戰鬥中的mob or player的變數
@@ -55,10 +55,10 @@
 #tri {發揮到極限了} {#t- learn;#ti off;#t+ showStatus;sk;#wa 1000;cd;#t- showStatus;#if (@area < 5) {#if (@area = 4) {#var room 1} {#add room 1};move @area;#show go room on area:@area;#wa 1000;#show start check;} {recall;#wa 1000;e;#4 n;#wa 1000;w;#3 ladle;move 1;rs;#show all area End! Time:%time();#t+ reborn}} "learn"
 // skill排序
 1 = force, 2 = dragonforce, 3 = blade, 4 = unarmed, 5 = dodge, 6 = parry 7 = spells
-8 = magic, 9 = throwing, 10 = block, 11 = guard-block, 12 = clever-thief, 13 = thief
-#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};startLearn} "learn"
-#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};startLearn} "learn"
-#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 14) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk guard-block} {#var goalSk clever-thief} {#var goalSk thief};startLearn} "learn"
+8 = magic, 9 = throwing, 10 = block, 11 = clever-thief, 12 = guard-block, 13 = thief
+#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 12) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
+#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 12) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
+#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 12) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
 
 //-------------showStatus--------------
 // 顯示目前學習的技能等級
