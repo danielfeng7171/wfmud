@@ -14,6 +14,9 @@
 #alias {goTaiwan} {e;e;tran 9;n;n;e;u;e;#show start check}
 #alias {rs} {#var area 1;#var room 1;#var bKill 0}
 #alias {tiCmd} {ll @goalSk;q;z;xx;a}
+#alias {startLearn} {#wa 1000;#t+ learn;#ti on;#var bKill 0}
+#alias {startNextArea} {#if (@area > 3) {#var room 1} {#add room 1};#if (@area < 5) {move @area;#show go room on area:@area;#wa 1000;#show start check} {#t+ kill;recall;e;e;tran 4;#wa 2000;k girl}}
+#alias {waitNextRound} {recall;#wa 1000;e;#4 n;#wa 1000;w;#3 ladle;move 1;rs;#show all area End! Time:%time();#t+ reborn}
 
 //測試語句
 你的潛能已經發揮到極限了﹐沒有辦法再成長了。

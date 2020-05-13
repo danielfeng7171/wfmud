@@ -15,6 +15,8 @@
 #tri {go room on area:3} {#case (@room) {} {s} {#2 s} {#2 s;e} {e} {#2 e} {#2 e;s} {#2 e;#2 s} {#show go next area}} "general"
 // 台灣清兵
 #tri {go next room on area:4} {#wa 2000;#add room 1;#show go Room:@room;#if (@room < 9) {e} {#if (@room < 12) {s} {#if (@room < 15) {w} {#if (@room < 17) {n} {#show go next area}}}}; #if (@room < 17) {#show start check}} "general"
+// 襄陽蒙古兵
+#tri {go next room on area:5} {#wa 1000;#add room 1;#show go Room:@room;#case (@room) {} {s} {w} {w} {n} {n} {e} {ne} {e} {w;n} {u} {#wa 10000;#add area 1;move 5;startLearn}; #if (@room < 12) {#show start check}} "general"
 
 // 避免動作太快,沒有戰鬥中遇到就直接飛到幫會待機
 #tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#cap log;#ti off;#ig;#math delay (%1+2)*1000;#wa @delay;#ig;#if (@bKill = 0) {move 5;startLearn} {#show start check}} "general"
@@ -28,6 +30,9 @@
 #tri {殺    氣﹕(%d)} {killScore = %1} "general"
 #tri {你用一種異樣的眼神掃視著在場的每一個人。} {#t- check;enable force sunzi-force;cd;#ti 1 {pd}} "general"
 #tri {你現在毫無殺氣。} {#ti off;#ti 0 {tickCmd};enable force dragonforce;cd;cd;#show start check} "general"
+// 醫療
+#tri {醫師說道: 這位壯士您可以走了} {#show go next room on area:@area} "general"
+#tri {看來該逃跑了} {#wa 2000;m 5;e;s;w;heal me} "general"
 
 //-------------reborn-------------
 // 判斷是否重生
@@ -52,7 +57,7 @@
 // 檢查潛能
 #tri {潛%s能:%s(%d)} {#t- kill;potential = %1;#if (@potential >= 120 | (@area = 3 & @potential = 100)) {move 5;startLearn} {#show go next room on area:@area}} "kill"
 //-------------learn--------------
-#tri {發揮到極限了} {#t- learn;#ti off;#t+ showStatus;sk;#wa 1000;cd;#t- showStatus;#if (@area < 5) {#if (@area = 4) {#var room 1} {#add room 1};move @area;#show go room on area:@area;#wa 1000;#show start check;} {recall;#wa 1000;e;#4 n;#wa 1000;w;#3 ladle;move 1;rs;#show all area End! Time:%time();#t+ reborn}} "learn"
+#tri {發揮到極限了} {#t- learn;#ti off;#t+ showStatus;sk;#wa 1000;cd;#t- showStatus;#if (@area < 6) {startNextArea} {waitNextRound}} "learn"
 // skill排序
 1 = force, 2 = dragonforce, 3 = blade, 4 = unarmed, 5 = dodge, 6 = parry 7 = spells
 8 = magic, 9 = throwing, 10 = block, 11 = clever-thief, 12 = guard-block, 13 = thief
