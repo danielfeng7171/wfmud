@@ -15,7 +15,7 @@
 #alias {rs} {#var area 1;#var room 1;#var bKill 0}
 #alias {tiCmd} {ll @goalSk;q;z;xx;a}
 #alias {startLearn} {#wa 1000;#t+ learn;#ti on;#var bKill 0}
-#alias {startNextArea} {#if (@area > 3) {#var room 1} {#add room 1};#if (@area < 5) {move @area;#show go room on area:@area;#wa 1000;#show start check} {#t+ kill;recall;e;e;tran 4;#wa 2000;k girl}}
+#alias {startNextArea} {#if (@area = 2) {#var room 1} {#add room 1};move @area;#show go room on area:@area;#if (@area < 3) {#wa 1000;#show start check}}
 #alias {waitNextRound} {recall;#wa 1000;e;#4 n;#wa 1000;w;#3 ladle;move 1;rs;#show all area End! Time:%time();#t+ reborn}
 
 //測試語句
