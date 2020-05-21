@@ -60,12 +60,11 @@
 //-------------learn--------------
 #tri {發揮到極限了} {#t- learn;#ti off;#t+ showStatus;sk;#wa 1000;cd;#t- showStatus;#if (@area < 5) {startNextArea} {waitNextRound};} "learn"
 // skill排序
-1 = force, 2 = dragonforce, 3 = blade, 4 = unarmed, 5 = dodge, 6 = parry 7 = spells
-8 = magic, 9 = throwing, 10 = block, 11 = clever-thief, 12 = guard-block, 13 = thief
-#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 12) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
-#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 12) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
-#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 12) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk dragonforce} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk spells} {#var goalSk magic} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
-
+1 = force, 2 = blade, 3 = unarmed, 4 = dodge, 5 = parry, 6 = throwing, 7 = block, 8 = clever-thief,
+9 = dragonforce, 10 = spells, 11 = magic, 12 = guard-block, 13 = thief
+#tri {缺乏實戰經驗} {#t- learn;#ti off;#if (@skIdx < 8) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk dragonforce} {#var goalSk spells} {#var goalSk magic} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
+#tri {你的實戰經驗不足} {#t- learn;#ti off;#if (@skIdx < 8) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk dragonforce} {#var goalSk spells} {#var goalSk magic} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
+#tri {技巧不夠熟練} {#t- learn;#ti off;#if (@skIdx < 8) {#add skIdx 1} {#var skIdx 1};#case (@skIdx) {#var goalSk force} {#var goalSk blade} {#var goalSk unarmed} {#var goalSk dodge} {#var goalSk parry} {#var goalSk throwing} {#var goalSk block} {#var goalSk clever-thief} {#var goalSk dragonforce} {#var goalSk spells} {#var goalSk magic} {#var goalSk guard-block} {#var goalSk thief};startLearn} "learn"
 //-------------showStatus--------------
 // 顯示目前學習的技能等級
 #tri {%e%s{(}(%*){)}(%*)} {#if (%1 = @goalSk) {#show goalSk(%1):%2};} "showStatus"
