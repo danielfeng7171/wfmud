@@ -17,7 +17,9 @@
 // 赤旗(日月神教)
 #tri {go next room on area:4} {#add room 1;#show go Room:@room;#case (@room) {} {w} {w} {w} {w} {n} {e} {e} {e} {e} {#show go next area};#wa 1000;#if (@room < 11) {#show start check}} "general"
 #tri {go room on area:4} {#case (@room) {} {w} {#2 w} {#3 w} {#4 w} {#4 w;n} {#3 w;n} {#2 w;n} {w;n} {n} {#show go next area}} "general"
-
+// 外蒙
+#tri {go next room on area:4} {#add room 1;#show go Room:@room;#case (@room) {} {n} {enter;w} {e;e} {n;ne;n;w;w} {w;out} {#show go next area};#wa 1000;#if (@room < 11) {#show start check}} "general"
+#tri {go room on area:4} {#case (@room) {} {n} {n;enter;w} {n;enter;e} {n;enter;e;n;ne;n;w;w} {n;enter;e;n;ne;n;w;w;w;out} {#show go next area}} "general"
 // 避免動作太快,沒有戰鬥中遇到就直接飛到幫會待機
 #tri {【警告】你於%s(%d)%s秒內再下超過 10 個指令的話，就會見到鬼王或戰神了，請注意！} {#cap log;#ti off;#t- kill;#math delay (%1+2)*1000;#wa @delay;#if (@bKill = 0) {move 5;startLearn} {#show start check}} "general"
                                                                                         
